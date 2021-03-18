@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:13-alpine
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PG_SYSTEM_MAX_CONNECTIONS: 200
+    command: ['-c', 'max_connections=200']
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - main-net
+
+volumes:
+  db-data:
+
+networks:
+  main-net:
+    driver: bridge
