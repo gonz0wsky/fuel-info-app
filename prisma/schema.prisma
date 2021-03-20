@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      Role     @default(USER)
+}
+
+model Station {
+  id         String   @id @default(uuid())
+  name       String
+  postalCode String
+  address    String
+  lat        Float
+  lon        Float
+  isPrivate  Boolean  @default(false)
+  localityId String
+  locality   Locality @relation(fields: [localityId], references: [id])
+  price      Price[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Price {
+  id        String   @id @default(uuid())
+  fuelType  String
+  price     Float
+  stationId String
+  station   Station  @relation(fields: [stationId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Locality {
+  id        String    @id @default(uuid())
+  name      String
+  townId    String
+  town      Town      @relation(fields: [townId], references: [id])
+  station   Station[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Town {
+  id         String     @id @default(uuid())
+  name       String
+  locality   Locality[]
+  provinceId String
+  province   Province   @relation(fields: [provinceId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Province {
+  id        String   @id @default(uuid())
+  name      String
+  town      Town[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
