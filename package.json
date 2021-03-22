@@ -22,7 +22,7 @@
     "startdb": "docker-compose up -d",
     "stopdb": "docker-compose stop",
     "prismaFormatSchema": "yarn prisma format",
-    "prismaGenMigrations": "yarn prisma generate dev",
+    "prismaGenMigrations": "yarn prisma migrate dev",
     "prismaMigrate": "yarn prisma migrate deploy",
     "prismaStudio": "yarn prisma studio"
   },
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.5.6",
     "@nestjs/schematics": "^7.2.7",
-    "@nestjs/testing": "^7.6.13",
+    "@nestjs/testing": "^7.6.14",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.31",

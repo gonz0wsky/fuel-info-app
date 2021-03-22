@@ -20,9 +20,9 @@ model User {
   firstName String
   lastName  String
   password  String
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  role      Role     @default(USER)
 }
 
 model Station {
@@ -32,6 +32,7 @@ model Station {
   address    String
   lat        Float
   lon        Float
+  schedule   String
   isPrivate  Boolean  @default(false)
   localityId String
   locality   Locality @relation(fields: [localityId], references: [id])
@@ -40,14 +41,30 @@ model Station {
   updatedAt  DateTime @updatedAt
 }
 
+enum FuelType {
+  BIODSL
+  BIOETL
+  GNC
+  GNL
+  GLP
+  DSLA
+  DSLB
+  DSLPRE
+  G95E10
+  G95E5
+  G95E5PRE
+  G98E10
+  G98E5
+  HDG
+}
+
 model Price {
   id        String   @id @default(uuid())
-  fuelType  String
+  fuelType  FuelType
   price     Float
   stationId String
   station   Station  @relation(fields: [stationId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime
 }
 
 model Locality {
